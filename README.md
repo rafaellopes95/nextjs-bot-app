@@ -1,6 +1,7 @@
+# NextJS Chatbot App
 This is a NextJS website with chatbot capabilities PoC.
 
-# Running locally
+## Running locally
 1. Build and start website:
 ```
 npm run build
