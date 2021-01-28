@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "./navbar";
 
-const name = 'Rafael';
+const name = "Order Bot";
 export const siteTitle = 'Next.js Sample Website';
 
 export default function Layout({ children, home }) {
@@ -25,12 +25,12 @@ export default function Layout({ children, home }) {
           <meta name="og:title" content={siteTitle} />
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
-        <Navbar />
+        {/* <Navbar /> */}
         <header className={styles.header}>
           {home ? (
             <>
               <img
-                src="/images/profile.jpg"
+                src="/images/lightsailBot.gif"
                 className={`${styles.headerHomeImage} ${utilStyles.borderCircle}`}
                 alt={name}
               />
@@ -41,7 +41,7 @@ export default function Layout({ children, home }) {
               <Link href="/">
                 <a>
                   <img
-                    src="/images/profile.jpg"
+                    src="/images/lightsailBot.gif"
                     className={`${styles.headerImage} ${utilStyles.borderCircle}`}
                     alt={name}
                   />

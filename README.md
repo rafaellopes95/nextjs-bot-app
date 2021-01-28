@@ -10,68 +10,29 @@ npm run dev
 ```
 3. Access `http://localhost:3000`.
 
-## Creating Lex bot
-1. Create service role for Lex:
-```
-aws iam create-service-linked-role --aws-service-name lex.amazonaws.com
-```
-2. Create a custom slot (it specifies which types of flowers can be ordered):
-```
-aws lex-models put-slot-type --region us-east-1 --name FlowerTypes --cli-input-json file://bot\FlowerTypes.json
-```
-3. Create a bot intent (like a bot conversation):
-```
-aws lex-models put-intent --region us-east-1 --name OrderFlowers --cli-input-json file://bot\OrderFlowers.json
-```
-4. Create a bot:
-```
-aws lex-models put-bot --region us-east-1 --name OrderFlowersBot --cli-input-json file://bot\OrderFlowersBot.json
-```
-5. Check bot readiness (status key should be "READY"):
-```
-aws lex-models get-bot --region us-east-1 --name OrderFlowersBot --version-or-alias "$LATEST"
-```
-6. Get the custom slot checksum:
-```
-aws lex-models get-slot-type --region us-east-1 --name FlowerTypes --slot-type-version "$LATEST"
-```
-7. Create the custom slot version:
-```
-aws lex-models create-slot-type-version --region us-east-1 --name FlowerTypes --checksum "42971e7d-f892-4187-8ba7-ac46ce7fb89f"
-```
-8. Get the latest version of intent and save it on a file:
-```
-aws lex-models get-intent --region us-east-1 --name OrderFlowers --intent-version "$LATEST" > bot\OrderFlowers_V4.json
-```
-9. Save the intent revision:
-```
-aws lex-models put-intent --name OrderFlowers --cli-input-json file://bot\OrderFlowers_V4.json
-```
-10. Get the checksum of the latest revision of the intent (the checksum saved in this json will be used in next step):
-```
-aws lex-models get-intent --region us-east-1 --name OrderFlowers --intent-version "$LATEST" > bot\OrderFlowers_V4a.json
-```
-11. Publish new version of intent:
-```
-aws lex-models create-intent-version --region us-east-1 --name OrderFlowers --checksum "60b61886-5055-4f29-af73-29f680d8e9b1"
+## Setting up Amplify
+In order to add Lex easy integration the Amplify can be used.
+After this is installed, it is necessary to configure both authentication and the bot interaction as detailed in next sections.
+Amplify getting started doc: https://docs.amplify.aws/start/getting-started/installation/q/integration/react
 
-    "createdDate": "2021-01-26T22:51:33.799000-03:00",
-    "version": "1",
-    "checksum": "60b61886-5055-4f29-af73-29f680d8e9b1"
+### Adding auth
+Detailed instructions can be found on this documentation: https://docs.amplify.aws/lib/auth/getting-started/q/platform/js
+
+1. Add auth with `amplify add auth` and complete the guided configuration with default options. It will create the amplify/backend folders with necessary code to deploy a Cognito user pool for the app.
+2. Deploy Cognito to your account with `amplify push` command. You should see in outputs that resources are being provisioned into your AWS account.
+3. On _app.js include the Amplify configuration from auto-generated src/aws-exports.js file in order to integrate Cognito with your app:
+```javascript
+import { Amplify } from "aws-amplify";
+import awsconfig from "../src/aws-exports";
+
+Amplify.configure(awsconfig);
 ```
-12. Get latest version of bot:
-```
-aws lex-models get-bot --region us-east-1 --name OrderFlowersBot --version-or-alias "$LATEST" > bot\OrderFlowersBot_V4.json
-```
-13. Put bot:
-```
-aws lex-models put-bot --name OrderFlowersBot --cli-input-json file://bot\OrderFlowersBot_V4.json
-```
-14. Get bot checksum:
-```
-aws lex-models get-bot --region us-east-1 --version-or-alias 1 --name OrderFlowersBot > bot\OrderFlowersBot_V4a.json
-```
-15. Publish new bot version:
-```
-aws lex-models create-bot-version --region us-east-1 --name OrderFlowersBot --checksum "8d03f403-85ca-457b-b2d6-2aa8ff8a63bd"
-```
+
+### Adding bot interaction
+Detailed instructions can be found on this documentation: https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js
+1. Add bot interaction with `amplify add interactions` and completed guided configuration, picking a sample bot like OrderFlowers. It will create the amplify/interactions folders with necessary code to deploy a Lex bot for the app.
+2. Deploy Lex to your account with `amplify push` command. You should see in outputs that resources are being provisioned into your AWS account.
+
+You can notice that src/aws-exports.js file now contains configurations for the interaction too.
+## Further readings
+- Complete Guide to Amplify and Next.js: https://dev.to/dev_sahan/complete-guide-to-amplify-and-next-js-4318
