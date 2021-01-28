@@ -27,7 +27,7 @@ class OrderFlowers extends React.Component {
                     onComplete={this.handleComplete.bind(this)}
                     clearOnComplete={true}
                     voiceEnabled={true}
-                    conversationModeOn={false}
+                    conversationModeOn={true}
                 />
             </Layout>
         )
