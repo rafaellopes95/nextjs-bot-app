@@ -1,16 +1,10 @@
 # NextJS Chatbot App
-This is a NextJS website with chatbot capabilities PoC.
+This is a NextJS website with chatbot capabilities PoC. Chatbot is powered by Amazon Lex service.
 
-## Running locally
-1. Install dependencies with NPM: `npm install`
-2. Build and start website:
-```
-npm run build
-npm run dev
-```
-3. Access `http://localhost:3000`.
+## Requirements
+This PoC requires a AWS account to run it on local machine, as well as Cognito and Lex resources properly provisioned on that account. You can folow below instructions to quickly provision them using Amplify CLI.
 
-## Setting up Amplify
+### Setting up Amplify
 In order to add Lex easy integration the Amplify can be used.
 After this is installed, it is necessary to configure both authentication and the bot interaction as detailed in next sections.
 Amplify getting started doc: https://docs.amplify.aws/start/getting-started/installation/q/integration/react
@@ -27,12 +21,21 @@ import awsconfig from "../src/aws-exports";
 
 Amplify.configure(awsconfig);
 ```
-
 ### Adding bot interaction
 Detailed instructions can be found on this documentation: https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js
 1. Add bot interaction with `amplify add interactions` and completed guided configuration, picking a sample bot like OrderFlowers. It will create the amplify/interactions folders with necessary code to deploy a Lex bot for the app.
 2. Deploy Lex to your account with `amplify push` command. You should see in outputs that resources are being provisioned into your AWS account.
 
-You can notice that src/aws-exports.js file now contains configurations for the interaction too.
+You will notice that src/aws-exports.js file now contains configurations for the interaction too.
+
+## Running locally
+1. If not done yet, install dependencies with NPM: `npm install`
+2. Build and start website:
+```
+npm run build
+npm run dev
+```
+3. Access `http://localhost:3000`.
+
 ## Further readings
 - Complete Guide to Amplify and Next.js: https://dev.to/dev_sahan/complete-guide-to-amplify-and-next-js-4318

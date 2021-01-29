@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { ChatBot } from "aws-amplify-react";
+import dynamic from "next/dynamic";
 
+const NoSSRChatBot = dynamic(() => import("aws-amplify-react").then((mod) => mod.ChatBot), { ssr: false });
 class OrderFlowers extends React.Component {
 
     handleComplete(error, confirmation) {
@@ -20,7 +21,7 @@ class OrderFlowers extends React.Component {
                     <title>Flowers Service</title>
                 </Head>
 
-                <ChatBot
+                <NoSSRChatBot
                     title="Order your flowers!"
                     botName="OrderFlowersBot"
                     welcomeMessage="Hello, how can I help you today?"
