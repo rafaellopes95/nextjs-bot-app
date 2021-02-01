@@ -21,6 +21,16 @@ import awsconfig from "../src/aws-exports";
 
 Amplify.configure(awsconfig);
 ```
+4. You need to add the AmplifyAuthenticator component so auth is handled for your app:
+```javascript
+export default function App({ Component, pageProps }) {
+    return (
+        <AmplifyAuthenticator>
+            <Component {...pageProps} />
+        </AmplifyAuthenticator>
+    );
+}
+```
 ### Adding bot interaction
 Detailed instructions can be found on this documentation: https://docs.amplify.aws/lib/interactions/getting-started/q/platform/js
 1. Add bot interaction with `amplify add interactions` and completed guided configuration, picking a sample bot like OrderFlowers. It will create the amplify/interactions folders with necessary code to deploy a Lex bot for the app.
